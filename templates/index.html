@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+    <h2>💰 SpendWise</h2>
+    <p>Personal Expense Tracker</p>
+</header>
+
+<main>
+    <h1>Dashboard</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <p class="message {{ category }}">{{ message }}</p>
+      {% endfor %}
+    {% endwith %}
+
+    <section class="summary">
+        <div class="card">
+            <p>Current Balance</p>
+            <h2>{{ balance|money }}</h2>
+        </div>
+
+        <div class="card">
+            <p>Total Income</p>
+            <h2 class="income">{{ income|money }}</h2>
+        </div>
+
+        <div class="card">
+            <p>Total Expenses</p>
+            <h2 class="expense">{{ expenses|money }}</h2>
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2>Add Transaction</h2>
+
+        <form action="{{ url_for('add_transaction') }}" method="POST">
+            <label>Title</label>
+            <input type="text" name="title"
+                   placeholder="e.g. Bus ticket" maxlength="100" required>
+
+            <label>Amount (₹)</label>
+            <input type="number" name="amount"
+                   min="0.01" step="0.01" required>
+
+            <label>Type</label>
+            <select name="kind" required>
+                <option value="Expense">Expense</option>
+                <option value="Income">Income</option>
+            </select>
+
+            <label>Category</label>
+            <select name="category" required>
+                {% for category in category_options %}
+                    <option value="{{ category }}">{{ category }}</option>
+                {% endfor %}
+            </select>
+
+            <label>Date</label>
+            <input type="date" name="transaction_date"
+                   value="{{ today }}" required>
+
+            <button type="submit">Add Transaction</button>
+        </form>
+    </section>
+
+    <section class="panel">
+        <h2>Expense Categories</h2>
+
+        {% if categories %}
+            {% for item in categories %}
+                <p>{{ item.category }} — {{ item.total|money }}</p>
+            {% endfor %}
+        {% else %}
+            <p>No expenses recorded yet.</p>
+        {% endif %}
+    </section>
+
+    <section class="panel">
+        <h2>Transaction History</h2>
+
+        {% if transactions %}
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Type</th>
+                        <th>Category</th>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for item in transactions %}
+                    <tr>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.kind }}</td>
+                        <td>{{ item.category }}</td>
+                        <td>{{ item.transaction_date }}</td>
+                        <td>{{ item.amount|money }}</td>
+                        <td>
+                            <form action="{{ url_for(
+                                'delete_transaction',
+                                transaction_id=item.id
+                            ) }}" method="POST">
+                                <button class="delete" type="submit">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+            <p>No transactions yet. Add your first transaction!</p>
+        {% endif %}
+    </section>
+</main>
+
+<footer>Python Capstone Project | Flask + SQLite</footer>
+
+</body>
+</html>

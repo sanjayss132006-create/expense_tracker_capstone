@@ -1,0 +1,137 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f3f7f4;
+    color: #24352b;
+}
+
+header {
+    background: #247653;
+    color: white;
+    padding: 20px 7%;
+}
+
+header h2 {
+    margin: 0;
+}
+
+header p {
+    margin-bottom: 0;
+}
+
+main {
+    max-width: 1100px;
+    margin: auto;
+    padding: 25px 18px;
+}
+
+.summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.card, .panel {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 18px;
+    box-shadow: 0 3px 12px #0000000a;
+}
+
+.card p {
+    color: #66776c;
+}
+
+.card h2 {
+    overflow-wrap: anywhere;
+}
+
+.income {
+    color: #218653;
+}
+
+.expense, .delete {
+    color: #c34343;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input, select {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #d6e0d9;
+    border-radius: 7px;
+    font-size: 14px;
+}
+
+button {
+    padding: 12px;
+    background: #247653;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #17583c;
+}
+
+button.delete {
+    background: #fff0f0;
+    border: 1px solid #f0d2d2;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+}
+
+th, td {
+    padding: 12px 8px;
+    border-bottom: 1px solid #e7ece8;
+    text-align: left;
+}
+
+.message {
+    padding: 12px;
+    border-radius: 7px;
+}
+
+.success {
+    background: #e0f5e8;
+}
+
+.error {
+    background: #ffebeb;
+}
+
+footer {
+    text-align: center;
+    color: #718078;
+    padding: 20px;
+}
+
+@media (max-width: 650px) {
+    .summary {
+        grid-template-columns: 1fr;
+    }
+
+    header {
+        padding: 18px;
+    }
+}
